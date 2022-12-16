@@ -6,8 +6,13 @@ const uRL = input[0];
 const fileName = input[1];
 
 request(uRL, (error, response, body) => {
+  if (error) {
+    console.log(error);
+    return;
+  }
   fs.writeFile(fileName, body, (err) => {
     if (err) {
+      console.log(response);
       console.log('WriteFile error:', err);
       return;
     }
