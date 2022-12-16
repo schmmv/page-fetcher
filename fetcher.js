@@ -1,18 +1,22 @@
 const request = require('request');
 const fs = require('fs');
-const args = process.argv.slice(2);
-request(args[0], (error, response, body) => {
-  console.log(response.statusCode);
-  fs.writeFile(args[1], body, (err) => {
+
+const input = process.argv.slice(2);
+const uRL = input[0];
+const fileName = input[1];
+
+request(uRL, (error, response, body) => {
+  fs.writeFile(fileName, body, (err) => {
     if (err) {
-      console.log(err);
+      console.log('WriteFile error:', err);
+      return;
     }
-    fs.stat(args[1], (err, stats) => {
+    fs.stat(fileName, (err, stats) => {
       if (err) {
-        console.log(err);
+        console.log('stats error:', err);
         return;
       }
-      console.log(`Downloaded and saved ${stats.size} bytes to ${args[1]}`);
-    })
+      console.log(`Downloaded and saved ${stats.size} bytes to ${fileName}`);
+    });
   });
-})
+});
